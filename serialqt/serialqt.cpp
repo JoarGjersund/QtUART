@@ -2,22 +2,38 @@
 #include <QtSerialPort>
 #include <qmessagebox.h>
 #include <QDebug>
-
+#include <QString>
 serialqt::serialqt(QWidget *parent)
 	: QMainWindow(parent), m_serial(new QSerialPort(this))
 {
-	openSerialPort();
+
 	ui.setupUi(this);
 	model = new QStringListModel(this);
-	connect(m_serial, &QSerialPort::readyRead, this, &serialqt::readData);
+	List << model->stringList();
+	ui.listView->setModel(model);
 
+
+	QSignalMapper * signalMapper = new QSignalMapper(this);
+	int i = 0;
+	Q_FOREACH(QSerialPortInfo port, QSerialPortInfo::availablePorts())
+	{
+		QAction *act = ui.menuPort->addAction(port.portName());
+		connect(act, SIGNAL(triggered()), signalMapper, SLOT(map()));
+		signalMapper->setMapping(act, port.portName());
+		i++;
+	}
+
+	QObject::connect(signalMapper, SIGNAL(mapped(QString)), this, SLOT(openSerialPort(QString)));
+	QObject::connect(m_serial, &QSerialPort::readyRead, this, &serialqt::readData);
+	QObject::connect(ui.pushButton, SIGNAL(released()), this, SLOT(writeData()));
 }
 
-void serialqt::openSerialPort()
+
+void serialqt::openSerialPort(QString port)
 {
-	
-	
-	m_serial->setPortName("COM1");
+	if (m_serial->isOpen()) m_serial->close();
+	qDebug("port opened");
+	m_serial->setPortName(port);
 	m_serial->setBaudRate(9600);
 	//m_serial->setDataBits(8);
 	//m_serial->setParity(0);
@@ -33,26 +49,23 @@ void serialqt::openSerialPort()
 	}
 }
 
+
 void serialqt::readData()
 {
 	const QByteArray data = m_serial->readAll();
 
-	
-	// Make data
-	QStringList List;
-	List << model->stringList() << data;
-
-	// Populate our model
+	List.append(data);
 	model->setStringList(List);
-
-	// Glue model and view together
 	ui.listView->setModel(model);
+	
 
 	ui.listView->scrollToBottom();
+	
 }
 void serialqt::writeData()
 {
-	qDebug("hallo");
-	//m_serial->write(data);
+
+	const QByteArray data = ui.lineEdit->text().QString::toUtf8();
+	m_serial->write(data);
 }
 

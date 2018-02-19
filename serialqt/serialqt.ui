@@ -71,6 +71,13 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuPort">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionPort"/>
+   </widget>
+   <addaction name="menuPort"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -81,6 +88,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionPort">
+   <property name="text">
+    <string>Port</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

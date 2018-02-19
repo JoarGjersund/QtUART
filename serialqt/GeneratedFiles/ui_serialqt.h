@@ -18,6 +18,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -29,12 +30,14 @@ QT_BEGIN_NAMESPACE
 class Ui_serialqtClass
 {
 public:
+    QAction *actionPort;
     QWidget *centralWidget;
     QFormLayout *formLayout;
     QListView *listView;
     QPushButton *pushButton;
     QLineEdit *lineEdit;
     QMenuBar *menuBar;
+    QMenu *menuPort;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -48,6 +51,8 @@ public:
         sizePolicy.setVerticalStretch(1);
         sizePolicy.setHeightForWidth(serialqtClass->sizePolicy().hasHeightForWidth());
         serialqtClass->setSizePolicy(sizePolicy);
+        actionPort = new QAction(serialqtClass);
+        actionPort->setObjectName(QStringLiteral("actionPort"));
         centralWidget = new QWidget(serialqtClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         formLayout = new QFormLayout(centralWidget);
@@ -89,6 +94,8 @@ public:
         menuBar = new QMenuBar(serialqtClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 764, 22));
+        menuPort = new QMenu(menuBar);
+        menuPort->setObjectName(QStringLiteral("menuPort"));
         serialqtClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(serialqtClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -96,6 +103,9 @@ public:
         statusBar = new QStatusBar(serialqtClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         serialqtClass->setStatusBar(statusBar);
+
+        menuBar->addAction(menuPort->menuAction());
+        menuPort->addAction(actionPort);
 
         retranslateUi(serialqtClass);
 
@@ -105,7 +115,9 @@ public:
     void retranslateUi(QMainWindow *serialqtClass)
     {
         serialqtClass->setWindowTitle(QApplication::translate("serialqtClass", "serialqt", nullptr));
+        actionPort->setText(QApplication::translate("serialqtClass", "Port", nullptr));
         pushButton->setText(QApplication::translate("serialqtClass", "Send", nullptr));
+        menuPort->setTitle(QApplication::translate("serialqtClass", "Settings", nullptr));
     } // retranslateUi
 
 };

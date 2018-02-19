@@ -1,14 +1,3 @@
-﻿  Moc'ing serialqt.h...
-  moc: Cannot create .\GeneratedFiles\Debug\moc_serialqt.cpp
-  Uic'ing serialqt.ui...
-  Could not create output file
-  Rcc'ing serialqt.qrc...
-RCC : warning : No resources in 'C:\Users\joar_\OneDrive\documents\visual studio 2017\Projects\serialqt\serialqt\serialqt.qrc'.
-  
-  moc_serialqt.cpp
-  main.cpp
-  serialqt.cpp
-  Generating Code...
-  qrc_serialqt.cpp
-  serialqt.vcxproj -> C:\Users\joar_\OneDrive\documents\visual studio 2017\Projects\serialqt\x64\Debug\serialqt.exe
-  serialqt.vcxproj -> C:\Users\joar_\OneDrive\documents\visual studio 2017\Projects\serialqt\x64\Debug\serialqt.pdb (Full PDB)
+﻿  serialqt.cpp
+  serialqt.vcxproj -> C:\Users\joar_\Dropbox\github\QtUART\x64\Debug\serialqt.exe
+  serialqt.vcxproj -> C:\Users\joar_\Dropbox\github\QtUART\x64\Debug\serialqt.pdb (Full PDB)

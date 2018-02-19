@@ -10,13 +10,14 @@ class serialqt : public QMainWindow
 private slots:
 	void readData();
 	void writeData();
-	
+	void openSerialPort(QString port);
+
 public:
-	serialqt(QWidget *parent = Q_NULLPTR);
+	serialqt(QWidget *parent = Q_NULLPTR );
 
 private:
 	Ui::serialqtClass ui;
-	void openSerialPort();
 	QSerialPort *m_serial = nullptr;
 	QStringListModel *model;
+	QStringList List;
 };
