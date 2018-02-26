@@ -3,15 +3,18 @@
 #include <qmessagebox.h>
 #include <QDebug>
 #include <QString>
+
+
+
 serialqt::serialqt(QWidget *parent)
 	: QMainWindow(parent), m_serial(new QSerialPort(this))
 {
 
 	ui.setupUi(this);
 	model = new QStringListModel(this);
-	List << model->stringList();
+	list << model->stringList();
 	ui.listView->setModel(model);
-
+	
 
 	QSignalMapper * signalMapper = new QSignalMapper(this);
 	int i = 0;
@@ -32,7 +35,7 @@ serialqt::serialqt(QWidget *parent)
 void serialqt::openSerialPort(QString port)
 {
 	if (m_serial->isOpen()) m_serial->close();
-	qDebug("port opened");
+	
 	m_serial->setPortName(port);
 	m_serial->setBaudRate(9600);
 	//m_serial->setDataBits(8);
@@ -41,7 +44,7 @@ void serialqt::openSerialPort(QString port)
 	//m_serial->setFlowControl(p.flowControl);
 	if (m_serial->open(QIODevice::ReadWrite)) {
 
-		
+		qDebug("port opened");
 	}
 	else 
 	{
@@ -54,17 +57,35 @@ void serialqt::readData()
 {
 	const QByteArray data = m_serial->readAll();
 
-	List.append(data);
-	model->setStringList(List);
+	list.append(data);
+	model->setStringList(list);
 	ui.listView->setModel(model);
 	
 
-	ui.listView->scrollToBottom();
+
+	int temp = list.last().simplified().toInt();
+	if (temp>0) dataStream.append(temp);
+	if (dataStream.size() > 3)
+	{ 
+		dataStreamFiltered.append(
+		dataStream.at(dataStream.size() - 3) + dataStream.at(dataStream.size() - 2) + dataStream.at(dataStream.size() - 1) 
+		);
+
+		int pos = dataStreamFiltered.last();
+		QCursor c = cursor();
+		c.setPos(mapToGlobal(QPoint(pos * 100, 200)));
+		setCursor(c);
+	}
+
+
+
 	
+
+	ui.listView->scrollToBottom();
 }
 void serialqt::writeData()
 {
-
+	
 	const QByteArray data = ui.lineEdit->text().QString::toUtf8();
 	m_serial->write(data);
 }

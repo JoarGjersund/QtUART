@@ -4,6 +4,7 @@
 #include "ui_serialqt.h"
 #include <QSerialPort>
 #include <QStringListModel>
+#include <QVector>
 class serialqt : public QMainWindow
 {
 	Q_OBJECT
@@ -14,10 +15,11 @@ private slots:
 
 public:
 	serialqt(QWidget *parent = Q_NULLPTR );
-
+	QVector<int> dataStream;
+	QVector<int> dataStreamFiltered;
 private:
 	Ui::serialqtClass ui;
 	QSerialPort *m_serial = nullptr;
 	QStringListModel *model;
-	QStringList List;
+	QStringList list;
 };
